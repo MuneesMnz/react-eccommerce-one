@@ -1,10 +1,16 @@
-import React from 'react'
-import Navbar from '../components/Navbar'
+import React from "react";
+import Navbar from "../components/Navbar";
+import Announcement from "../components/Announcement";
+import Slider from "../components/Slider";
 
 const Home = () => {
   return (
-   <Navbar />
-  )
-}
+    <>
+      <Announcement />
+      <Navbar />
+      <Slider />
+    </>
+  );
+};
 
-export default Home
+export default Home;
