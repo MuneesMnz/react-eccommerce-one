@@ -53,7 +53,7 @@ const Navbar = () => {
 
   const MenuLink=styled.div`
   font-size:14px;
-  cursor:pointer;
+  cursor:pointer; 
   margin-left:25px;
   `
 

@@ -34,6 +34,7 @@ const Input=styled.input`
 `
 const Button=styled.button`
 flex:1;
+cursor:pointer;
 
   border: none;
   color:white;
