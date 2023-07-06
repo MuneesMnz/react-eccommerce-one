@@ -5,6 +5,7 @@ import Products from "../components/Products";
 import NewsLetter from "../components/NewsLetter";
 import Footer from "../components/Footer";
 import {mobile} from '../responcive'
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div``;
 const Title = styled.h1`
@@ -35,6 +36,8 @@ const Option=styled.option`
 `
 
 const ProductList = () => {
+  const location=useLocation()
+  const cat=location.pathname.split('/')[2]
   return (
     <Container>
       <Navbar />
