@@ -3,12 +3,13 @@ import Navbar from "../components/Navbar";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import { Add, Remove } from "@material-ui/icons";
-import {mobile} from '../responcive'
+import { mobile } from "../responcive";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 20px;
-  ${mobile({padding:"10px"})}
+  ${mobile({ padding: "10px" })}
 `;
 const Title = styled.h1`
   font-size: 40px;
@@ -20,8 +21,7 @@ const Top = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  ${mobile({padding:"10px"})}
-
+  ${mobile({ padding: "10px" })}
 `;
 
 const TopButton = styled.button`
@@ -37,7 +37,7 @@ const TopButton = styled.button`
 const Toptexts = styled.div`
   display: flex;
   gap: 15px;
-  ${mobile({display:"none"})}
+  ${mobile({ display: "none" })}
 `;
 const Toptext = styled.div`
   text-decoration: underline;
@@ -47,7 +47,7 @@ const Bottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  ${mobile({flexDirection:"column"})}
+  ${mobile({ flexDirection: "column" })}
 `;
 const Info = styled.div`
   flex: 3;
@@ -57,7 +57,7 @@ const Product = styled.div`
   padding: 10px;
   display: flex;
   justify-content: space-between;
-  ${mobile({flexDirection:"column"})}
+  ${mobile({ flexDirection: "column" })}
 `;
 const ProductDetail = styled.div`
   flex: 2;
@@ -96,12 +96,12 @@ const ProductAmountContainer = styled.div`
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 10px;
-  ${mobile({margin:"5px 15px"})}
+  ${mobile({ margin: "5px 15px" })}
 `;
 const ProductPrice = styled.div`
   font-size: 35px;
   font-weight: 200;
-  ${mobile({marginBottom:"20px"})}
+  ${mobile({ marginBottom: "20px" })}
 `;
 
 const Hr = styled.hr`
@@ -132,18 +132,19 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 const Button = styled.button`
-width:100%;
-padding:10px;
-font-size:18px;
-font-weight:500;
-border: none;
-background-color:black;
-color:white;
-cursor:pointer;
-margin-top: 15px;
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  font-weight: 500;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  margin-top: 15px;
 `;
 
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
   return (
     <Container>
       <Navbar />
@@ -160,63 +161,39 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://5.imimg.com/data5/ANDROID/Default/2021/6/UH/ZG/GC/120280019/img-20210624-wa0351-jpg.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> ADDIDAS SHOES
-                  </ProductName>
-                  <ProductId>
-                    <b>Id:</b> 987568354
-                  </ProductId>
-                  <ProductColor color="yellow" />
-                  <ProductSize>
-                    <b>size:</b>38
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDeatiles>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDeatiles>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://5.imimg.com/data5/ANDROID/Default/2021/6/UH/ZG/GC/120280019/img-20210624-wa0351-jpg.jpg" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> ADDIDAS SHOES
-                  </ProductName>
-                  <ProductId>
-                    <b>Id:</b> 987568354
-                  </ProductId>
-                  <ProductColor color="yellow" />
-                  <ProductSize>
-                    <b>size:</b>38
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDeatiles>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDeatiles>
-            </Product>
+            {cart.products.map((product, index) => (
+              <Product key={index}>
+                <ProductDetail>
+                  <Image src={product.img} />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b>{product.title}
+                    </ProductName>
+                    <ProductId>
+                      <b>Id:</b> {product._id}
+                    </ProductId>
+                    <ProductColor color="yellow" />
+                    <ProductSize>
+                      <b>size:</b>{product.size}
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDeatiles>
+                  <ProductAmountContainer>
+                    <Add />
+                    <ProductAmount>{product.quantity}</ProductAmount>
+                    <Remove />
+                  </ProductAmountContainer>
+                  <ProductPrice>$ {product.price *product.quantity}</ProductPrice>
+                </PriceDeatiles>
+              </Product>
+            ))}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Sub total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -227,8 +204,8 @@ const Cart = () => {
               <SummaryItemPrice>-$ 6.50</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
-              <SummaryItemText >Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
+              <SummaryItemText>Total</SummaryItemText>
+              <SummaryItemPrice>$ {cart.total}</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>
